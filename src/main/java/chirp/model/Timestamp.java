@@ -2,7 +2,6 @@ package chirp.model;
 
 import java.io.Serializable;
 
-import org.codehaus.jackson.annotate.JsonProperty;
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
 
@@ -10,7 +9,6 @@ public class Timestamp implements Comparable<Timestamp>, Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-	@JsonProperty
 	private final String timestamp;
 
 	public Timestamp(String timestamp) {
