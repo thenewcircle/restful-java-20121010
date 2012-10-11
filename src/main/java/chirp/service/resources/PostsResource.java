@@ -21,7 +21,7 @@ import chirp.service.representations.PostRepresentation;
 
 import com.google.inject.Inject;
 
-@Path("posts/{username}")
+@Path("/posts/{username}")
 public class PostsResource {
 
 	private final UserRepository userRepository;

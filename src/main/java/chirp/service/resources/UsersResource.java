@@ -20,7 +20,7 @@ import chirp.service.representations.UserRepresentation;
 
 import com.google.inject.Inject;
 
-@Path("users")
+@Path("/users")
 public class UsersResource {
 
 	private final UserRepository userRepository;
