@@ -6,6 +6,7 @@ import static com.sun.jersey.api.container.grizzly2.GrizzlyServerFactory.createH
 import java.io.IOException;
 import java.net.URI;
 
+import org.codehaus.jackson.jaxrs.JacksonJsonProvider;
 import org.glassfish.grizzly.http.server.HttpServer;
 
 import chirp.model.UserRepository;
@@ -13,6 +14,8 @@ import chirp.model.UserRepository;
 import com.google.inject.AbstractModule;
 import com.google.inject.Injector;
 import com.sun.jersey.api.client.Client;
+import com.sun.jersey.api.client.config.ClientConfig;
+import com.sun.jersey.api.client.config.DefaultClientConfig;
 import com.sun.jersey.api.core.ClasspathResourceConfig;
 import com.sun.jersey.api.core.ResourceConfig;
 import com.sun.jersey.guice.spi.container.GuiceComponentProviderFactory;
@@ -83,7 +86,9 @@ public class ResourceTest extends JerseyTest {
 
 	@Override
 	protected AppDescriptor configure() {
-		return new LowLevelAppDescriptor.Builder(new ClasspathResourceConfig()).build();
+		ClientConfig cc = new DefaultClientConfig();
+		cc.getClasses().add(JacksonJsonProvider.class);
+		return new LowLevelAppDescriptor.Builder(new ClasspathResourceConfig()).clientConfig(cc).build();
 	}
 
 }

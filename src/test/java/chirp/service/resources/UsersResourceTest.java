@@ -6,6 +6,8 @@ import javax.ws.rs.core.MultivaluedMap;
 
 import org.junit.Test;
 
+import chirp.model.User;
+
 import com.sun.jersey.api.client.ClientResponse;
 import com.sun.jersey.api.client.UniformInterfaceException;
 import com.sun.jersey.api.client.WebResource;
@@ -36,5 +38,13 @@ public class UsersResourceTest extends ResourceTest {
 		} catch (UniformInterfaceException e) {
 			assertEquals(ClientResponse.Status.FORBIDDEN, e.getResponse().getClientResponseStatus());
 		}
+	}
+
+	@Test
+	public void getUserMustReturnUser() {
+		User expected = getUserRepository().createUser("testuser", "Test User");
+		User actual = usersResource.path("testuser").get(User.class);
+		assertEquals(expected.getUsername(), actual.getUsername());
+		assertEquals(expected.getRealname(), actual.getRealname());
 	}
 }
