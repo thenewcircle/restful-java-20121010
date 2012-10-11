@@ -10,10 +10,17 @@ import javax.ws.rs.core.UriBuilder;
 
 import chirp.model.UserRepository;
 
+import com.google.inject.Inject;
+
 @Path("users")
 public class UsersResource {
 
-	private final UserRepository userRepository = UserRepository.getInstance();
+	private final UserRepository userRepository;
+
+	@Inject
+	public UsersResource(UserRepository userRepository) {
+		this.userRepository = userRepository;
+	}
 
 	@POST
 	public Response createUser(@FormParam("username") String username,

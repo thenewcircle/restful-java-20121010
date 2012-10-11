@@ -2,32 +2,16 @@ package chirp.model;
 
 import static java.util.Collections.unmodifiableCollection;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
+import java.io.Serializable;
 import java.util.Collection;
 import java.util.Map;
 import java.util.TreeMap;
 
-public class UserRepository {
+public class UserRepository implements Serializable {
 
-	private static UserRepository instance;
+	private static final long serialVersionUID = 1L;
 
-	private static final File file = new File("state.bin");
-	private final Map<String, User> users;
-
-	private UserRepository() {
-		users = thaw();
-	}
-
-	public static UserRepository getInstance() {
-		if (instance == null)
-			instance = new UserRepository();
-		return instance;
-	}
+	private final Map<String, User> users = new TreeMap<String, User>();
 
 	public User createUser(String username, String realname) {
 		if (users.containsKey(username))
@@ -55,30 +39,4 @@ public class UserRepository {
 			throw new NoSuchEntityException();
 	}
 
-	@SuppressWarnings("unchecked")
-	private static Map<String, User> thaw() {
-		try {
-			ObjectInputStream in = new ObjectInputStream(new FileInputStream(file));
-			try {
-				return (Map<String, User>) in.readObject();
-			} finally {
-				in.close();
-			}
-		} catch (Exception e) {
-			return new TreeMap<String, User>();
-		}
-	}
-
-	public void freeze() {
-		try {
-			ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(file));
-			try {
-				out.writeObject(users);
-			} finally {
-				out.close();
-			}
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
 }
