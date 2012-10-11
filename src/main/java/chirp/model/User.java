@@ -1,8 +1,9 @@
 package chirp.model;
 
-import static java.util.Collections.unmodifiableMap;
+import static java.util.Collections.unmodifiableCollection;
 
 import java.io.Serializable;
+import java.util.Collection;
 import java.util.Map;
 import java.util.TreeMap;
 
@@ -24,7 +25,9 @@ public class User implements Serializable {
 	}
 
 	@JsonCreator
-	public User(@JsonProperty("username") String username, @JsonProperty("realname") String realname, @JsonProperty("posts") Map<Timestamp, Post> posts) {
+	public User(@JsonProperty("username") String username,
+			@JsonProperty("realname") String realname,
+			@JsonProperty("posts") Map<Timestamp, Post> posts) {
 		this.username = username;
 		this.realname = realname;
 		this.posts = posts;
@@ -48,8 +51,8 @@ public class User implements Serializable {
 		return post;
 	}
 
-	public Map<Timestamp, Post> getPosts() {
-		return unmodifiableMap(posts);
+	public Collection<Post> getPosts() {
+		return unmodifiableCollection(posts.values());
 	}
 
 	public Post getPost(Timestamp timestamp) {
