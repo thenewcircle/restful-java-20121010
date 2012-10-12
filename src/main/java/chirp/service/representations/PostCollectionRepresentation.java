@@ -4,51 +4,54 @@ import java.net.URI;
 import java.util.ArrayList;
 import java.util.Collection;
 
-import javax.ws.rs.core.UriBuilder;
-
 import org.codehaus.jackson.annotate.JsonCreator;
+import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jackson.annotate.JsonProperty;
 
 import chirp.model.Post;
-import chirp.service.resources.PostsResource;
-import chirp.service.resources.UsersResource;
 
+import com.sun.jersey.server.linking.Link;
+import com.sun.jersey.server.linking.Links;
+import com.sun.jersey.server.linking.Ref;
+
+@Links({
+	@Link(value = @Ref("/posts/{username}"), rel = "self"),
+	@Link(value = @Ref("/users/{username}"), rel = "related")
+})
 public class PostCollectionRepresentation {
 
-	private final URI self;
-	private final URI user;
+	@Ref("/posts/{username}")
+	private URI self;
+
 	private final Collection<PostRepresentation> posts;
+	private final String username;
 
 	public PostCollectionRepresentation(Collection<Post> posts, String username) {
-		this.self = UriBuilder.fromResource(PostsResource.class)
-				.build(username);
-		this.user = UriBuilder.fromResource(UsersResource.class).path(username)
-				.build();
 		this.posts = new ArrayList<PostRepresentation>();
 		for (Post post : posts) {
 			this.posts.add(new PostRepresentation(post, true));
 		}
+		this.username = username;
 	}
 
 	@JsonCreator
 	public PostCollectionRepresentation(@JsonProperty("self") URI self,
-			@JsonProperty("user") URI user,
 			@JsonProperty("posts") Collection<PostRepresentation> posts) {
 		this.self = self;
-		this.user = user;
 		this.posts = posts;
+		this.username = null;
 	}
 
 	public URI getSelf() {
 		return self;
 	}
 
-	public URI getUser() {
-		return user;
-	}
-
 	public Collection<PostRepresentation> getPosts() {
 		return posts;
 	}
 
+	@JsonIgnore
+	public String getUsername() {
+		return username;
+	}
 }
