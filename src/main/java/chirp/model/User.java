@@ -1,8 +1,7 @@
 package chirp.model;
 
-import static java.util.Collections.unmodifiableCollection;
-
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Map;
 import java.util.TreeMap;
@@ -39,7 +38,7 @@ public class User implements Serializable {
 	}
 
 	public Collection<Post> getPosts() {
-		return unmodifiableCollection(posts.values());
+		return new ArrayList<Post>(posts.values());
 	}
 
 	public Post getPost(Timestamp timestamp) {

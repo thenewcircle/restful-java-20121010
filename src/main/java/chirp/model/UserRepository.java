@@ -1,8 +1,7 @@
 package chirp.model;
 
-import static java.util.Collections.unmodifiableCollection;
-
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Map;
 import java.util.TreeMap;
@@ -23,7 +22,7 @@ public class UserRepository implements Serializable {
 	}
 
 	public Collection<User> getUsers() {
-		return unmodifiableCollection(users.values());
+		return new ArrayList<User>(users.values());
 	}
 
 	public User getUser(String username) {
