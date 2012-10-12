@@ -1,8 +1,6 @@
 package chirp.service.resources;
 
 import java.net.URI;
-import java.util.ArrayList;
-import java.util.Collection;
 
 import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
@@ -17,6 +15,7 @@ import javax.ws.rs.core.UriBuilder;
 import chirp.model.Post;
 import chirp.model.Timestamp;
 import chirp.model.UserRepository;
+import chirp.service.representations.PostCollectionRepresentation;
 import chirp.service.representations.PostRepresentation;
 
 import com.google.inject.Inject;
@@ -41,12 +40,8 @@ public class PostsResource {
 
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	public Collection<PostRepresentation> getPosts(@PathParam("username") String username) {
-		Collection<PostRepresentation> posts = new ArrayList<PostRepresentation>();
-		for (Post post : userRepository.getUser(username).getPosts()) {
-			posts.add(new PostRepresentation(post, true));
-		}
-		return posts;
+	public PostCollectionRepresentation getPosts(@PathParam("username") String username) {
+		return new PostCollectionRepresentation(userRepository.getUser(username).getPosts(), username);
 	}
 
 	@GET
