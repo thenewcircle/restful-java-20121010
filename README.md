@@ -24,3 +24,7 @@ Videos
   - https://mrkn.s3.amazonaws.com/recordings/restful-java-20121010/2.2.mov
   - https://mrkn.s3.amazonaws.com/recordings/restful-java-20121010/2.3.mov
   - https://mrkn.s3.amazonaws.com/recordings/restful-java-20121010/2.4.mov
+* Day 3
+  - https://mrkn.s3.amazonaws.com/recordings/restful-java-20121010/3.1.mov
+  - https://mrkn.s3.amazonaws.com/recordings/restful-java-20121010/3.2.mov
+  - https://mrkn.s3.amazonaws.com/recordings/restful-java-20121010/3.3.mov
