@@ -1,6 +1,7 @@
 package chirp.model;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Map;
 import java.util.TreeMap;
@@ -37,7 +38,7 @@ public class User implements Serializable {
 	}
 
 	public Collection<Post> getPosts() {
-		return posts.values();
+		return new ArrayList<Post>(posts.values());
 	}
 
 	public Post getPost(Timestamp timestamp) {
