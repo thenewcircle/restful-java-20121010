@@ -5,34 +5,46 @@ import java.net.URI;
 import javax.ws.rs.core.UriBuilder;
 
 import org.codehaus.jackson.annotate.JsonCreator;
+import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jackson.annotate.JsonProperty;
 
 import chirp.model.Post;
 import chirp.service.resources.PostsResource;
-import chirp.service.resources.UsersResource;
 
+import com.sun.jersey.server.linking.Link;
+import com.sun.jersey.server.linking.Links;
+import com.sun.jersey.server.linking.Ref;
+
+@Links({
+	@Link(value=@Ref("/posts/{username}/{timestamp}"), rel="self"),
+	@Link(value=@Ref("/posts/{username}"), rel="collection"),
+	@Link(value=@Ref("/users/{username}"), rel="related")
+})
 public class PostRepresentation {
 
-	private final URI self;
-	private final URI user;
+	@Ref("/posts/{username}/{timestamp}")
+	private URI self;
+
+	@JsonIgnore
+	private final String username;
+
 	private final String timestamp;
 	private final String content;
 
 	public PostRepresentation(Post post, boolean summary) {
-		timestamp = summary ? null : post.getTimestamp().toString();
+		timestamp = post.getTimestamp().toString();
 		content = summary ? null : post.getContent();
-		String username = post.getUser().getUsername();
-		self = UriBuilder.fromResource(PostsResource.class).path(post.getTimestamp().toString()).build(username);
-		user = summary ? null : UriBuilder.fromResource(UsersResource.class).path(username).build();
+		username = post.getUser().getUsername();
+		self = UriBuilder.fromResource(PostsResource.class)
+				.path(post.getTimestamp().toString()).build(username);
 	}
 
 	@JsonCreator
 	public PostRepresentation(@JsonProperty("self") URI self,
-			@JsonProperty("user") URI user,
 			@JsonProperty("timestamp") String timestamp,
 			@JsonProperty("content") String content) {
 		this.self = self;
-		this.user = user;
+		this.username = null;
 		this.timestamp = timestamp;
 		this.content = content;
 	}
@@ -41,8 +53,8 @@ public class PostRepresentation {
 		return self;
 	}
 
-	public URI getUser() {
-		return user;
+	public String getUsername() {
+		return username;
 	}
 
 	public String getTimestamp() {

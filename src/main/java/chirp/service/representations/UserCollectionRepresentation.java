@@ -9,12 +9,18 @@ import javax.ws.rs.core.UriBuilder;
 import org.codehaus.jackson.annotate.JsonCreator;
 import org.codehaus.jackson.annotate.JsonProperty;
 
+import com.sun.jersey.server.linking.Link;
+import com.sun.jersey.server.linking.Ref;
+
 import chirp.model.User;
 import chirp.service.resources.UsersResource;
 
+@Link(value=@Ref("/users"), rel="self")
 public class UserCollectionRepresentation {
 
-	private final URI self;
+	@Ref("/users")
+	private URI self;
+
 	private final Collection<UserRepresentation> users;
 
 	public UserCollectionRepresentation(Collection<User> users) {
